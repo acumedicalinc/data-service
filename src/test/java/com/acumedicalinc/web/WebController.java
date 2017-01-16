@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 public class WebController {
 	// inject via application.properties
 		@Value("${welcome.message:test}")
-		private String message = "Hello World";
+		private String message = "Welcome to ACU Medical";
 
 		@RequestMapping("/")
 		public String index(Map<String, Object> model) {
