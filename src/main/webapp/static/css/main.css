@@ -1,0 +1,19 @@
+body {
+	background-color: powderblue;
+}
+
+h1{
+	color:#0000FF;
+}
+
+h2{
+	color:#FF0000;
+}
+
+p {
+	color: red;
+}
+
+.greeting-content {
+	color: #ff0011;
+}

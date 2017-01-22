@@ -5,6 +5,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,13 +23,24 @@ public class WebController {
 		}
 	
 		@RequestMapping("/{website}")
-	    public String hello(Model model, @PathVariable String website) {
+	    public String website(Model model, @PathVariable String website) {
 	        model.addAttribute("name", website);
 	        
-	        if (website != null && website.length() > 0) {
+	        if (!StringUtils.isEmpty(website)) {
 	        		return "jsp/" + website + ".jsp";
 	        }
 	        
-	        return "error.html";
+	        return "jsp/error.jsp";
+	    }
+		
+		@RequestMapping("/upload/{subject}")
+	    public String subWebsite(Model model, @PathVariable String subject) {
+			model.addAttribute("name", "/upload/" + subject);
+			
+	        if (!StringUtils.isEmpty(subject)) {
+	        		return "jsp/upload/" + subject + ".jsp";
+	        }
+	        
+			return "jsp/error.jsp";
 	    }
 }
