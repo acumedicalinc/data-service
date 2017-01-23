@@ -1,7 +1,6 @@
 package com.acumedicalinc.web.entity;
 
 import java.io.Serializable;
-import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,7 +11,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "Patient")
-public class Patient {
+public class Patient implements Serializable {
 
 	public Patient() {
 	}

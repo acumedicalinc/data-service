@@ -5,12 +5,26 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Upload File Request Page</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+<script type="text/javascript">
+
+    $(function()
+    {
+        $('#file').on('change',function ()
+        {
+            var filePath = $(this).val();
+            $('#filename').attr('value', filePath);
+        });
+    });
+
+</script>
 </head>
 <body>
 	<form method="POST" action="uploadFile" enctype="multipart/form-data">
-		File to upload: <input type="file" name="file">
+		File to upload: <input id="file" type="file" name="file">
  
-		Name: <input type="text" name="name">
+		Name: <input id="filename" type="text" name="name">
  
  
 		<input type="submit" value="Upload"> Press here to upload the file!
