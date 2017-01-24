@@ -4,7 +4,11 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,6 +24,7 @@ import com.acumedicalinc.web.entity.Patient;
  *
  */
 @Repository
+@Transactional
 public class PatientDaoImp  implements  PatientDao {
 	
 	@PersistenceContext
@@ -27,30 +32,41 @@ public class PatientDaoImp  implements  PatientDao {
 	
 //	@Autowired
 //	PatientRepository repo;
+	@Autowired
+	SessionFactory sessionFactory;
 	
 	@Override
 	public void insert(Patient patient) {
 		entityManager.persist(patient);
+		Session curr = sessionFactory.getCurrentSession();
+		curr.saveOrUpdate(patient);
 	}
 	
 	public void insert(List<Patient> patients) {
 //		repo.save(patients);
+		Session curr = sessionFactory.getCurrentSession();
 		
-		for (Patient p: patients)
+		for (Patient p: patients){
 			entityManager.persist(p);
+			curr.saveOrUpdate(p);
+		}
 		
 		findAll();
 	}
 
 	public List<Patient> findAll() {
 //		return repo.findAll();
-		
-		return null;
+		Session curr = sessionFactory.getCurrentSession();
+		return curr.createCriteria(Patient.class).list();
 	}
 	
 	public Patient findPatient(long patientId) {
 //		return (Patient) repo.findOne(patientId);
-		return null;
+		Session curr = sessionFactory.getCurrentSession();
+		Patient found = (Patient) curr.createCriteria(Patient.class)
+						.add(Restrictions.eq("id", patientId))
+						.list().get(0);
+		return found;
 	}
 	
 	@Bean (name="patientDao")
