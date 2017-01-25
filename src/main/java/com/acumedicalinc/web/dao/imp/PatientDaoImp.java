@@ -30,8 +30,6 @@ public class PatientDaoImp  implements  PatientDao {
 	@PersistenceContext
 	 private EntityManager entityManager;
 	
-//	@Autowired
-//	PatientRepository repo;
 	@Autowired
 	SessionFactory sessionFactory;
 	
@@ -43,7 +41,7 @@ public class PatientDaoImp  implements  PatientDao {
 	}
 	
 	public void insert(List<Patient> patients) {
-//		repo.save(patients);
+
 		Session curr = sessionFactory.getCurrentSession();
 		
 		for (Patient p: patients){
@@ -55,13 +53,13 @@ public class PatientDaoImp  implements  PatientDao {
 	}
 
 	public List<Patient> findAll() {
-//		return repo.findAll();
+
 		Session curr = sessionFactory.getCurrentSession();
 		return curr.createCriteria(Patient.class).list();
 	}
 	
 	public Patient findPatient(long patientId) {
-//		return (Patient) repo.findOne(patientId);
+
 		Session curr = sessionFactory.getCurrentSession();
 		Patient found = (Patient) curr.createCriteria(Patient.class)
 						.add(Restrictions.eq("id", patientId))
