@@ -14,8 +14,10 @@ under src/main/webapp/
 	WEB-INF/jsp/upload/{table-name}: .jsp files to upload the file data to database tables
 </pre>
 
-<pre>	
-login to http://localhost:8082/ to view H2 database
+<pre>
+upload file to DB: http://localhost:8080/upload	
+view H2 database:  http://localhost:8082/
+
 	Saved Settings:	Generic H2 (Embedded)
 	Setting Name:	Generic H2 (Embedded)
 	Driver Class:	org.h2.Driver
