@@ -23,9 +23,6 @@ import com.acumedicalinc.web.entity.Patient;
 @Transactional
 public class PatientDaoImp  implements  PatientDao {
 	
-//	@PersistenceContext
-//	 private EntityManager entityManager;
-//	
 	@Autowired
 	SessionFactory sessionFactory;
 	

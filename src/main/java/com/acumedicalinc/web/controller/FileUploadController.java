@@ -28,12 +28,12 @@ import com.acumedicalinc.web.until.FileTransformUtil;
 @Controller
 @Component
 public class FileUploadController {
-	
+
 
 	@Autowired
 	UploadService uploadService;
-	
-	
+
+
 
 	/**
 	 * Upload single file using Spring Controller
@@ -45,29 +45,42 @@ public class FileUploadController {
 
 
 		try {
-			
-	    
-	    
-		if (!file.isEmpty()) {
-			ByteArrayInputStream stream = new   ByteArrayInputStream(file.getBytes());
-			String myString = IOUtils.toString(stream, "UTF-8");
-		
-			insertPatients(myString.split("\n"));
-			
-			return "/public/success.html";
-		} else {
-			return "You failed to upload " + name
-					+ " because the file was empty.";
-		}
+
+			if (!file.isEmpty()) {
+				ByteArrayInputStream stream = new   ByteArrayInputStream(file.getBytes());
+				String myString = IOUtils.toString(stream, "UTF-8");
+				
+				//TODO Check filename to decide which table to put data
+				if(name.startsWith("patient_A")){
+					String[] n = name.split("_");
+					long timeStamp = 0;
+					for(int i = 0; i < n.length; i++){
+						if(n[i].startsWith("201")){
+							timeStamp = Long.parseLong(n[i]);
+						}
+					}
+					insertFormatA(myString.split("\n"), timeStamp);
+				}
+				
+				//insertPatients(myString.split("\n"));
+
+				return "/public/success.html";
+			} else {
+				return "You failed to upload " + name
+						+ " because the file was empty.";
+			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		return "/public/error.html";
 	}
-	
+
 	public void insertPatients(String[] strings) {
-		uploadService.insertPatients(FileTransformUtil.fileToList(strings));
+		uploadService.insertPatients(FileTransformUtil.fileToPatientList(strings));
+	}
+	public void insertFormatA(String[] strings, long timestamp){
+		uploadService.insertFormatA(FileTransformUtil.fileToFormatAList(strings, timestamp));
 	}
 }

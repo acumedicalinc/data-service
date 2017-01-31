@@ -8,7 +8,9 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 
+import com.acumedicalinc.web.dao.FormatADao;
 import com.acumedicalinc.web.dao.PatientDao;
+import com.acumedicalinc.web.entity.FormA;
 import com.acumedicalinc.web.entity.Patient;
 import com.acumedicalinc.web.service.UploadService;
 
@@ -17,6 +19,9 @@ import com.acumedicalinc.web.service.UploadService;
 public class UploadServiceImp implements UploadService {
 	@Autowired
 	PatientDao patientDao;
+	
+	@Autowired
+	FormatADao formADao;
 	
 	@Override
 	public void insertPatients(List<Patient> patients) {
@@ -36,5 +41,20 @@ public class UploadServiceImp implements UploadService {
 	@Bean (name="uploadService")
 	public UploadService uploadService() {
 		return this;
+	}
+
+	@Override
+	public void insertFormatA(List<FormA> forms) {
+		formADao.insert(forms);
+	}
+	@Override
+	public void insertFormatA(FormA form) {
+		formADao.insert(form);
+	}
+
+	@Override
+	public List<FormA> getFormatA() {
+		formADao.findAll();
+		return null;
 	}
 }
