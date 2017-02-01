@@ -50,15 +50,19 @@ public class FileUploadController {
 				ByteArrayInputStream stream = new   ByteArrayInputStream(file.getBytes());
 				String myString = IOUtils.toString(stream, "UTF-8");
 				
-				//TODO Check filename to decide which table to put data
+				//TODO Check filename to decide which table to put data in
 				if(name.startsWith("patient_A")){
 					String[] n = name.split("_");
 					long timeStamp = 0;
+					
+					//Searches for string that looks like a timestamp.
+					//Only works for dates formatted with the year first, between 2010 and 2019.
 					for(int i = 0; i < n.length; i++){
 						if(n[i].startsWith("201")){
 							timeStamp = Long.parseLong(n[i]);
 						}
 					}
+					
 					insertFormatA(myString.split("\n"), timeStamp);
 				}
 				

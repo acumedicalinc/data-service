@@ -10,10 +10,10 @@ import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
 import com.acumedicalinc.web.entity.FormA;
-import com.acumedicalinc.web.entity.Patient;
 import com.acumedicalinc.web.dao.FormatADao;
 
 @Repository
@@ -67,7 +67,8 @@ public class FormatADaoImp implements FormatADao{
 		findAll();
 	}
 	
-	@Bean(name = "FormatADao")
+	@Bean (name = "formatADao")
+	@Primary
 	public FormatADao formatADao(){
 		return this;
 	}
