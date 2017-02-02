@@ -51,7 +51,7 @@ public class FileUploadController {
 				String myString = IOUtils.toString(stream, "UTF-8");
 				
 				//TODO Check filename to decide which table to put data in
-				if(name.startsWith("patient_A")){
+				if(name.contains("patient_A")){
 					String[] n = name.split("_");
 					long timeStamp = 0;
 					
@@ -65,9 +65,10 @@ public class FileUploadController {
 					
 					insertFormatA(myString.split("\n"), timeStamp);
 				}
+				else if(name.contains("demo")){
+					insertPatients(myString.split("\n"));
+				}
 				
-				//insertPatients(myString.split("\n"));
-
 				return "/public/success.html";
 			} else {
 				return "You failed to upload " + name
