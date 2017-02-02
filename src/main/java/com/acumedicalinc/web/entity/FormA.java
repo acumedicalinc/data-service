@@ -24,44 +24,44 @@ public class FormA implements Serializable {
 	private Long id;
 	
 	@Column
-	private Float time;
+	private Long time;
 	
 	@Column
-	private Float data1;
+	private Long data1;
 	
 	@Column
-	private Float data2; 
+	private Long data2; 
 	
 	@Column
-	private Float data3;
+	private Long data3;
 	
 	@Column
-	private Float data4;
+	private Long data4;
 	
 	@Column
-	private Float data5;
+	private Long data5;
 	
 	@Column
-	private Float data6;
+	private Long data6;
 	
 	@Column
-	private Float data7;
+	private Long data7;
 	
 	@Column
-	private Float data8;
+	private Long data8;
 	
 	@Column
-	private String timestamp;
+	private Long timestamp;
 	
 	public Long getId() {
 		return id;
 	}
 	
-	public void setTime(float t){
+	public void setTime(long t){
 		time = t;
 	}
 	
-	public void setData(float[] d){
+	public void setData(long[] d){
 		d[0] = data1;
 		d[1] = data2;
 		d[2] = data3;
@@ -72,7 +72,7 @@ public class FormA implements Serializable {
 		d[7] = data8;
 	}
 	
-	public void setTimestamp(String ts){
+	public void setTimestamp(long ts){
 		timestamp = ts;
 	}
 	

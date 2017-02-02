@@ -20,52 +20,44 @@ import com.acumedicalinc.web.entity.Patient;
  *
  */
 public class FileTransformUtil {
-
+	
 	public static List<Patient> fileToPatientList(String[] strings){
 		List<Patient> patients = new ArrayList<Patient>();
-
+		
 		for (String str : strings) {
 			Patient p = new Patient();
 			String[] line = str.split(",");
 			p.setFirstName(line[0]);
 			p.setLastName(line[1]);
 			p.setTestValue(Float.parseFloat(line[2]));
-
+			
 			patients.add(p);
 		}
 
 		return patients;
 	}
-
-	public static List<FormA> fileToFormatAList(String[] strings, String timestamp){
+	
+	public static List<FormA> fileToFormatAList(String[] strings, long timestamp){
 		List<FormA> forms = new ArrayList<FormA>();
-
+		
 		for(String str : strings){
 			FormA f = new FormA();
 			String[] line = str.split(",");
-			float time;
-
+			
 			//Add elements to FormA
-			//TODO: currently cannot parse string "0" for some reason???
-			//      Just throws NumberFormatException
-			String test = line[0];
-			if(test.equals("0")){
-				time = (float)0;
-			}
-			else{
-				time = Float.parseFloat(line[0]);
-			}
-			float[] data = new float[8];
+			f.setTime(Long.parseLong(line[0]));
+			long[] data = new long[8];
 			for(int i = 0; i < 8; i++){
-				data[i] = Float.parseFloat(line[i+1]);
+				data[i] = Long.parseLong(line[i+1]);
 			}
-			f.setTime(time);
 			f.setData(data);
 			f.setTimestamp(timestamp);
-
+			
 			forms.add(f);
 		}
-
+		
+		
+		
 		return forms;
 	}
 }

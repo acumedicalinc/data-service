@@ -51,15 +51,15 @@ public class FileUploadController {
 				String myString = IOUtils.toString(stream, "UTF-8");
 				
 				//TODO Check filename to decide which table to put data in
-				if(name.contains("patient_A")){
+				if(name.startsWith("patient_A")){
 					String[] n = name.split("_");
-					String timeStamp = "";
+					long timeStamp = 0;
 					
 					//Searches for string that looks like a timestamp.
 					//Only works for dates formatted with the year first, between 2010 and 2019.
 					for(int i = 0; i < n.length; i++){
 						if(n[i].startsWith("201")){
-							timeStamp = n[i];
+							timeStamp = Long.parseLong(n[i]);
 						}
 					}
 					
@@ -84,7 +84,7 @@ public class FileUploadController {
 	public void insertPatients(String[] strings) {
 		uploadService.insertPatients(FileTransformUtil.fileToPatientList(strings));
 	}
-	public void insertFormatA(String[] strings, String timestamp){
+	public void insertFormatA(String[] strings, long timestamp){
 		uploadService.insertFormatA(FileTransformUtil.fileToFormatAList(strings, timestamp));
 	}
 }
