@@ -6,6 +6,10 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.ComponentScan;
 
+/**
+ * Main method for entire program. 
+ * Launches the application.
+ */
 @SpringBootApplication
 @ComponentScan("com.acumedicalinc.web")
 public class SpringBootWebApplication extends SpringBootServletInitializer {

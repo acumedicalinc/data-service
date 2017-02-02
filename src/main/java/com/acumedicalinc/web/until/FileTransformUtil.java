@@ -21,6 +21,7 @@ import com.acumedicalinc.web.entity.Patient;
  */
 public class FileTransformUtil {
 	
+	//For reading in "patients", mostly for demo files.
 	public static List<Patient> fileToPatientList(String[] strings){
 		List<Patient> patients = new ArrayList<Patient>();
 		
@@ -37,9 +38,11 @@ public class FileTransformUtil {
 		return patients;
 	}
 	
-	public static List<FormA> fileToFormatAList(String[] strings, long timestamp){
+	//For reading in raw data that follows format A.
+	public static List<FormA> fileToFormatAList(String[] strings, String timestamp){
 		List<FormA> forms = new ArrayList<FormA>();
 		
+		//Reads in each row in the file and creates new table entry for each one.
 		for(String str : strings){
 			FormA f = new FormA();
 			String[] line = str.split(",");
@@ -53,11 +56,11 @@ public class FileTransformUtil {
 			f.setData(data);
 			f.setTimestamp(timestamp);
 			
+			//add entry to list of entries
 			forms.add(f);
 		}
 		
-		
-		
+		//returns list of entries for entire file
 		return forms;
 	}
 }
