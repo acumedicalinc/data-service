@@ -59,6 +59,7 @@ public class FormA implements Serializable {
 	@Column
 	private Double channel9;
 	
+	///////////Getters and Setters//////////////////
 	public Long getId() {
 		return id;
 	}
@@ -123,10 +124,20 @@ public class FormA implements Serializable {
 	public void setChannel9(Double channel9) {
 		this.channel9 = channel9;
 	}
+	//////////////////////////////////////////////////
 
+	/**
+	 * Empty constructor
+	 */
 	public FormA() {
 	}
 	
+	/**
+	 * Constructor for FormA object
+	 * 
+	 * @param values: String array of values to be parsed by setFloat
+	 * @param timestamp: Date object constant for all entries in the same file
+	 */
 	public FormA(String[] values, Date timestamp) {
 		this.test_datetime = timestamp;
 		
@@ -139,6 +150,12 @@ public class FormA implements Serializable {
 		}
 	}
 	
+	/**
+	 * Sets FormA values depending on the current index of the string array
+	 * 
+	 * @param i: the index of the string array values
+	 * @param floatStr: the string at index i in values
+	 */
 	private void setFloat(int i, String floatStr) {
 		switch (i) {
 			case 0:

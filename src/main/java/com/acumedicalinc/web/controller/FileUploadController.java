@@ -44,6 +44,7 @@ public class FileUploadController {
 
 	/**
 	 * Upload single file using Spring Controller
+	 * Main code that starts when "upload file" button is clicked on /upload
 	 */
 	@RequestMapping(value = "/uploadFile", method = RequestMethod.POST)
 	public @ResponseBody
@@ -79,7 +80,8 @@ public class FileUploadController {
 					loadXlsExcelData(stream, 9, fileTimestamp);
 				}
 				
-				//TODO Check filename to decide which table to put data in
+				//Check filename to decide which table to put data in
+				//TODO: replace "patient_A", since it is a placeholder for now.
 				else if(name.endsWith(".csv") && name.contains("patient_A")){
 					String myString = IOUtils.toString(stream, "UTF-8");
 					insertFormatA(myString.split("\n"), fileTimestamp);
@@ -91,7 +93,8 @@ public class FileUploadController {
 					insertPatients(myString.split("\n"));
 				}
 				
-				return "/public/success.html";
+				//return "/public/success.html";
+				return "You succesfully uploaded " + name + ".";
 			} else {
 				return "You failed to upload " + name
 						+ " because the file was empty.";

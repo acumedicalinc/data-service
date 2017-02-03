@@ -30,7 +30,13 @@ import java.util.Iterator;
  */
 public class FileTransformUtil {
 
-	// For reading in "patients", mostly for demo files.
+	/**
+	 *  For reading in "patients", mostly for demo files.
+	 *  
+	 * @param strings: array of strings from row in file
+	 * 
+	 * @return List<Patient>: List of patients created from data read from file
+	 */
 	public static List<Patient> fileToPatientList(String[] strings) {
 		List<Patient> patients = new ArrayList<Patient>();
 
@@ -47,7 +53,14 @@ public class FileTransformUtil {
 		return patients;
 	}
 
-	// For reading in raw data that follows format A.
+	/**\
+	 *  For reading in raw data that follows format A.
+	 *  
+	 * @param strings: array of strings from row in file
+	 * @param timestamp: constant for all entries in same file
+	 * 
+	 * @return List<FormA>: List of entries created from data read from file
+	 */
 	public static List<FormA> fileToFormatAList(String[] strings, Date timestamp) {
 		List<FormA> forms = new ArrayList<FormA>();
 
