@@ -57,7 +57,7 @@ public class FormA implements Serializable {
 	@Column
 	private Double channel8;
 	@Column
-	private Double channel9;
+	private Double time;
 	
 	///////////Getters and Setters//////////////////
 	public Long getId() {
@@ -118,11 +118,11 @@ public class FormA implements Serializable {
 	public void setChannel8(Double channel8) {
 		this.channel8 = channel8;
 	}
-	public Double getChannel9() {
-		return channel9;
+	public Double getTime() {
+		return time;
 	}
-	public void setChannel9(Double channel9) {
-		this.channel9 = channel9;
+	public void setTime(Double t) {
+		this.time = t;
 	}
 	//////////////////////////////////////////////////
 
@@ -158,32 +158,32 @@ public class FormA implements Serializable {
 	 */
 	private void setFloat(int i, String floatStr) {
 		switch (i) {
-			case 0:
+			case 1:
 				channel1 = Double.parseDouble(floatStr);
 				break;
-			case 1:
+			case 2:
 				channel2 = Double.parseDouble(floatStr);
 				break;
-			case 2:
+			case 3:
 				channel3 = Double.parseDouble(floatStr);
 				break;
-			case 3:
+			case 4:
 				channel4 = Double.parseDouble(floatStr);
 				break;
-			case 4:
+			case 5:
 				channel5 = Double.parseDouble(floatStr);
 				break;
-			case 5:
+			case 6:
 				channel6 = Double.parseDouble(floatStr);
 				break;
-			case 6:
+			case 7:
 				channel7 = Double.parseDouble(floatStr);
 				break;
-			case 7:
+			case 8:
 				channel8 = Double.parseDouble(floatStr);
 				break;
-			case 8:
-				channel9 = Double.parseDouble(floatStr);
+			case 0:
+				time = Double.parseDouble(floatStr);
 				break;
 			default:
 				break;
