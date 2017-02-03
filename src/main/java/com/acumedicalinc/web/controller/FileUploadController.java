@@ -2,9 +2,16 @@ package com.acumedicalinc.web.controller;
 
 
 import java.io.ByteArrayInputStream;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -43,30 +50,44 @@ public class FileUploadController {
 	String uploadFileHandler(@RequestParam("name") String name,
 			@RequestParam("file") MultipartFile file) {
 
-
+		Date fileTimestamp = new Date();
+		
 		try {
+			if (file != null && (name == null || name.trim().length()==0)) {
+				name = file.getOriginalFilename();
+			}
+			
+			Pattern r = Pattern.compile("\\d{8}_\\d{1,2}_\\d{1,2}_\\d{1,2}");
+			SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd_hh_mm_ss");
+			Matcher m = r.matcher(name);
+
+			if (m.find()) {
+				try {
+					fileTimestamp = format.parse(m.group());
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
+			}
 
 			if (!file.isEmpty()) {
 				ByteArrayInputStream stream = new   ByteArrayInputStream(file.getBytes());
-				String myString = IOUtils.toString(stream, "UTF-8");
+				
+				if (name.endsWith(".xlsx")){
+					loadXlsxExcelData(stream, 9, fileTimestamp);
+				}
+				else if (name.endsWith(".xls")){
+					loadXlsExcelData(stream, 9, fileTimestamp);
+				}
 				
 				//TODO Check filename to decide which table to put data in
-				if(name.contains("patient_A")){
-					String[] n = name.split("_");
-					String timeStamp = "";
-					
-					//Searches for string that looks like a timestamp.
-					//Only works for dates formatted with the year first, between 2010 and 2019.
-					for(int i = 0; i < n.length; i++){
-						if(n[i].startsWith("201")){
-							timeStamp = (n[i]);
-						}
-					}
-					
-					insertFormatA(myString.split("\n"), timeStamp);
+				else if(name.endsWith(".csv") && name.contains("patient_A")){
+					String myString = IOUtils.toString(stream, "UTF-8");
+					insertFormatA(myString.split("\n"), fileTimestamp);
 				}
+				
 				//For reading in demo file
 				else if(name.contains("demo")){
+					String myString = IOUtils.toString(stream, "UTF-8");
 					insertPatients(myString.split("\n"));
 				}
 				
@@ -78,7 +99,7 @@ public class FileUploadController {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		} 
 
 		return "/public/error.html";
 	}
@@ -86,7 +107,15 @@ public class FileUploadController {
 	public void insertPatients(String[] strings) {
 		uploadService.insertPatients(FileTransformUtil.fileToPatientList(strings));
 	}
-	public void insertFormatA(String[] strings, String timestamp){
+	public void insertFormatA(String[] strings, Date timestamp){
 		uploadService.insertFormatA(FileTransformUtil.fileToFormatAList(strings, timestamp));
+	}
+	
+	public void loadXlsxExcelData(InputStream excelFile, int length, Date timestamp) throws IOException {
+		uploadService.insertFormatA(FileTransformUtil.xlsxExcel(excelFile, length, timestamp));
+	}
+	
+	public void loadXlsExcelData(InputStream excelFile, int length, Date timestamp) throws IOException {
+		uploadService.insertFormatA(FileTransformUtil.xlsExcel(excelFile, length, timestamp));
 	}
 }

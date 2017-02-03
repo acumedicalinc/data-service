@@ -7,6 +7,7 @@ import javax.transaction.Transactional;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -29,17 +30,17 @@ public class FormatADaoImp implements FormatADao{
 	}
 	@Override
 	public void insert(List<FormA> forms){
-
+		System.out.println("data to insert counter: " + ((forms==null)? 0:forms.size()));
+		
 		Session session = getSession();
 		for (FormA f: forms){
 			session.save(f);
 		}
 		session.flush();
 		
-		List<FormA> all = findAll();
-		System.err.println("all counter: " + all.size());
-	
+		System.out.println("table entire counter: " + getSession().createCriteria(FormA.class).setProjection(Projections.rowCount()).uniqueResult());
 	}
+	
 	@Override
 	public List<FormA> findAll(){
 		return getSession().createCriteria(FormA.class).list();
