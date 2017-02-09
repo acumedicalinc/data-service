@@ -15,6 +15,11 @@ under src/main/webapp/
 </pre>
 
 <pre>
+	To add a new User, you need to add the new user record in USERS table and AUTHORITIES table
+	To temporarily revoke a user's login, set enabled = false for that username
+</pre>
+
+<pre>
 upload file to DB: http://localhost:8080/upload	
 view H2 database:  http://localhost:8082/
 
