@@ -1,22 +1,18 @@
 package com.acumedicalinc.web.config;
 
 import java.sql.SQLException;
-import java.util.Properties;
 
 import javax.sql.DataSource;
 
+import org.hibernate.SessionFactory;
+import org.hibernate.jpa.HibernateEntityManagerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
-import org.springframework.core.env.Environment;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
-//import org.hibernate.HibernateException;
 
 @Configuration
 //@EnableTransactionManagement
@@ -27,16 +23,39 @@ public class DatabaseConfig {
    * DataSource definition for database connection. Settings are read from
    * the application.properties file (using the env object).
    */
-  @Bean
-  public DataSource dataSource() {
-    DriverManagerDataSource dataSource = new DriverManagerDataSource();
-    dataSource.setDriverClassName("org.h2.Driver");
-    dataSource.setUrl( "jdbc:h2:/temp/h2database");
-    dataSource.setUsername("");
-    dataSource.setPassword("");
-    return dataSource;
-  }
+//  @Bean
+//  public DataSource dataSource() {
+//    DriverManagerDataSource dataSource = new DriverManagerDataSource();
+//    dataSource.setDriverClassName("org.h2.Driver");
+//    dataSource.setUrl( "jdbc:h2:mem:mydb");
+//    dataSource.setUsername("");
+//    dataSource.setPassword("");
+//    return dataSource;
+//  }
 
+//  @Bean
+//  public EntityManagerFactory entityManagerFactory() {
+//	  if (entityManagerFactory == null)
+//		  entityManagerFactory =  new HibernateJpaSessionFactoryBean().getEntityManagerFactory();
+//	  
+//	  return entityManagerFactory;
+//  }
+  
+//  @Autowired
+//  private EntityManagerFactory entityManagerFactory;
+  
+  @Bean  
+  public SessionFactory sessionFactory(HibernateEntityManagerFactory hemf){  
+      return hemf.getSessionFactory();  
+  } 
+//  @Bean
+//  public SessionFactory getSessionFactory() {
+//      if (entityManagerFactory().unwrap(SessionFactory.class) == null) {
+//          throw new NullPointerException("factory is not a hibernate factory");
+//      }
+//      return entityManagerFactory().unwrap(SessionFactory.class);
+//  }
+  
 //  @Bean
 //	public DataSource dataSource() {
 //
@@ -84,12 +103,11 @@ public class DatabaseConfig {
 		return new JdbcTemplate(dataSource);
 	}
 
-  // Private fields
-  
-//  @Autowired
-//  private Environment env;
-
   @Autowired
   private DataSource dataSource;
 
+  @Bean(initMethod="start",destroyMethod="stop")
+  public org.h2.tools.Server h2WebConsonleServer () throws SQLException {
+    return org.h2.tools.Server.createWebServer("-web","-webAllowOthers","-webDaemon","-webPort", "8082");
+  }
 }

@@ -9,20 +9,29 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.GenericGenerator;
+
 @Entity
 @Table(name = "Patient")
 public class Patient implements Serializable {
+	private static final long serialVersionUID = 1L;
 
 	public Patient() {
 	}
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "id")
+	@GenericGenerator(name="generator", strategy="increment")
+	@GeneratedValue(generator="generator")
+	@Column(name = "id", unique = true)
 	private Long id;
-	@Column(unique = true)
+	
+	@Column
 	private String firstName;
+	
+	@Column
 	private String lastName; 
+	
+	@Column
 	private float testValue;
 
 	public Long getId() {

@@ -2,20 +2,16 @@ package com.acumedicalinc.web.dao.imp;
 
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
-import com.acumedicalinc.web.repository.PatientRepository;
 import com.acumedicalinc.web.dao.PatientDao;
 import com.acumedicalinc.web.entity.Patient;
 
@@ -27,41 +23,49 @@ import com.acumedicalinc.web.entity.Patient;
 @Transactional
 public class PatientDaoImp  implements  PatientDao {
 	
-	@PersistenceContext
-	 private EntityManager entityManager;
-	
 	@Autowired
 	SessionFactory sessionFactory;
 	
 	@Override
 	public void insert(Patient patient) {
-		entityManager.persist(patient);
-		Session curr = sessionFactory.getCurrentSession();
-		curr.saveOrUpdate(patient);
+		getSession().save(patient);
 	}
 	
+	@Override
 	public void insert(List<Patient> patients) {
-
-		Session curr = sessionFactory.getCurrentSession();
-		
+		Session session = getSession();
 		for (Patient p: patients){
-			entityManager.persist(p);
-			curr.saveOrUpdate(p);
+			session.save(p);
+		}
+		session.flush();
+		
+		List<Patient> all = findAll();
+		System.err.println("all counter: " + all.size());
+	}
+	
+	@Override
+	public void saveOrUpdate(Patient patient) {
+		getSession().saveOrUpdate(patient);
+	}
+	
+	@Override
+	public void saveOrUpdate(List<Patient> patients) {
+		for (Patient p: patients){
+			saveOrUpdate(p);
 		}
 		
 		findAll();
 	}
 
+	@Override
 	public List<Patient> findAll() {
-
-		Session curr = sessionFactory.getCurrentSession();
-		return curr.createCriteria(Patient.class).list();
+		return getSession().createCriteria(Patient.class).list();
 	}
 	
+	@Override
 	public Patient findPatient(long patientId) {
 
-		Session curr = sessionFactory.getCurrentSession();
-		Patient found = (Patient) curr.createCriteria(Patient.class)
+		Patient found = (Patient) getSession().createCriteria(Patient.class)
 						.add(Restrictions.eq("id", patientId))
 						.list().get(0);
 		return found;
@@ -71,4 +75,10 @@ public class PatientDaoImp  implements  PatientDao {
 	public PatientDao patientDao() {
 		return this;
 	}
+	
+
+	private Session getSession() {
+		return sessionFactory.openSession();
+	}
+		
 }
