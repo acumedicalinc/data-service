@@ -26,11 +26,13 @@
 
 	<div align="left" style="padding-right: 10px;padding-top: 10px;">
 		<form method="POST" action="uploadFile" enctype="multipart/form-data">
-			Select a file to upload: 
-			<input id="file" type="file" name="file">
-			
-			Press <input type="submit" value="Here"> to upload the file to database
-		</form>
+		File to upload: <input id="file" type="file" name="file">
+ 
+		<input id="filename" type="hidden" name="name">
+ 
+ 
+		&nbsp;&nbsp; And then, click <input type="submit" value="Upload"> to upload the file!
+	</form>	
 	</div>
 </body>
 </html>
